@@ -1,0 +1,545 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>tests.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+#include &lt;iostream&gt;
+#include &lt;cassert&gt;
+#include "service.h"
+#include "tests.h"
+
+<span style = "background-color:#dfd">void testAddValidations() {
+    Repo r;
+    Service s{ r };</span>
+
+    // test empty title
+    try {
+<span style = "background-color:#dfd">        s.add("", "Cherno", 10, 30, 100, "http://test.com");</span>
+        // assert(false);
+    }
+<span style = "background-color:#dfd">    catch (std::exception&amp; e) {
+        assert(std::string(e.what()) == "Title cannot be empty!");
+    }</span>
+
+    // test empty presenter
+    try {
+<span style = "background-color:#dfd">        s.add("LearnCPP", "", 10, 30, 100, "http://test.com");</span>
+        // assert(false);
+    }
+<span style = "background-color:#dfd">    catch (std::exception&amp; e) {
+        assert(std::string(e.what()) == "Presenter cannot be empty!");
+    }</span>
+
+    // test negative minutes
+    try {
+<span style = "background-color:#dfd">        s.add("LearnCPP", "Cherno", -5, 30, 100, "http://test.com");</span>
+        // assert(false);
+    }
+<span style = "background-color:#dfd">    catch (std::exception&amp; e) {
+        assert(std::string(e.what()) == "Minutes cannot be negative!");
+    }</span>
+
+    // test negative seconds
+    try {
+<span style = "background-color:#dfd">        s.add("LearnCPP", "Cherno", 10, -10, 100, "http://test.com");</span>
+        // assert(false);
+    }
+<span style = "background-color:#dfd">    catch (std::exception&amp; e) {
+        assert(std::string(e.what()) == "Seconds must be between 0 and 59!");
+    }</span>
+
+    // test seconds &gt; 59
+    try {
+<span style = "background-color:#dfd">        s.add("LearnCPP", "Cherno", 10, 60, 100, "http://test.com");</span>
+        // assert(false);
+    }
+<span style = "background-color:#dfd">    catch (std::exception&amp; e) {
+        assert(std::string(e.what()) == "Seconds must be between 0 and 59!");
+    }</span>
+
+    // test empty link
+    try {
+<span style = "background-color:#dfd">        s.add("LearnCPP", "Cherno", 10, 30, 100, "");</span>
+        // assert(false);
+    }
+<span style = "background-color:#dfd">    catch (std::exception&amp; e) {
+        assert(std::string(e.what()) == "Link cannot be empty!");
+    }</span>
+    // test negative likes
+    try {
+<span style = "background-color:#dfd">        s.add("LearnCPP", "Cherno", 10, 30, -5, "http://test.com");</span>
+        // assert(false);
+    }
+<span style = "background-color:#dfd">    catch (std::exception&amp; e) {
+        assert(std::string(e.what()) == "Likes cannot be negative!");
+    }</span>
+
+<span style = "background-color:#dfd">    std::cout &lt;&lt; "testAddValidations passed!\n";
+}</span>
+
+<span style = "background-color:#dfd">void testAdd() {
+    Repo r;
+    Service s{ r };</span>
+
+    // test valid add
+<span style = "background-color:#dfd">    s.add("LearnCPP", "Cherno", 10, 30, 100, "http://test.com");
+    assert(s.length() == 1);</span>
+
+    // test duplicate
+    try {
+<span style = "background-color:#dfd">        s.add("LearnCPP", "Cherno", 5, 0, 50, "http://other.com");</span>
+        // assert(false); 
+    }
+<span style = "background-color:#dfd">    catch (std::exception&amp; e) {
+        assert(std::string(e.what()) == "Tutorial already exists!");
+    }</span>
+
+    // test valid add with boundary values
+<span style = "background-color:#dfd">    s.add("TestTutorial", "TestPresenter", 0, 0, 0, "http://valid.com");
+    assert(s.length() == 2);</span>
+
+<span style = "background-color:#dfd">    s.add("TestTutorial2", "TestPresenter2", 100, 59, 10000, "http://valid2.com");
+    assert(s.length() == 3);</span>
+
+<span style = "background-color:#dfd">    std::cout &lt;&lt; "testAdd passed!\n";
+}</span>
+
+<span style = "background-color:#dfd">void testRemoveValidations() {
+    Repo r;
+    Service s{ r };</span>
+
+    // test empty title
+    try {
+<span style = "background-color:#dfd">        s.remove("", "Cherno");</span>
+        // assert(false);
+    }
+<span style = "background-color:#dfd">    catch (std::exception&amp; e) {
+        assert(std::string(e.what()) == "Title cannot be empty!");
+    }</span>
+
+    // test empty presenter
+    try {
+<span style = "background-color:#dfd">        s.remove("LearnCPP", "");</span>
+        // assert(false);
+    }
+<span style = "background-color:#dfd">    catch (std::exception&amp; e) {
+        assert(std::string(e.what()) == "Presenter cannot be empty!");
+    }</span>
+
+<span style = "background-color:#dfd">    std::cout &lt;&lt; "testRemoveValidations passed!\n";
+}</span>
+
+<span style = "background-color:#dfd">void testRemove() {
+    Repo r;
+    Service s{ r };</span>
+
+    // add first, then remove
+<span style = "background-color:#dfd">    s.add("LearnCPP", "Cherno", 10, 30, 100, "http://test.com");
+    s.remove("LearnCPP", "Cherno");
+    assert(s.length() == 0);</span>
+
+    // test remove non-existing
+    try {
+<span style = "background-color:#dfd">        s.remove("LearnCPP", "ch8rn0");</span>
+        // assert(false);
+    }
+<span style = "background-color:#dfd">    catch (std::exception&amp; e) {
+        assert(std::string(e.what()) == "Tutorial not found!");
+    }</span>
+
+<span style = "background-color:#dfd">    std::cout &lt;&lt; "testRemove passed!\n";
+}</span>
+
+<span style = "background-color:#dfd">void testUpdateValidations() {
+    Repo r;
+    Service s{ r };
+    s.add("LearnCPP", "Cherno", 10, 30, 100, "http://test.com");</span>
+
+    // test empty old title
+    try {
+<span style = "background-color:#dfd">        s.update("", "Cherno", "NewTitle", "NewPresenter", 5, 5, "http://new.com");</span>
+        // assert(false);
+    }
+<span style = "background-color:#dfd">    catch (std::exception&amp; e) {
+        assert(std::string(e.what()) == "Title to find cannot be empty!");
+    }</span>
+
+    // test empty old presenter
+    try {
+<span style = "background-color:#dfd">        s.update("LearnCPP", "", "NewTitle", "NewPresenter", 5, 5, "http://new.com");</span>
+        // assert(false);
+    }
+<span style = "background-color:#dfd">    catch (std::exception&amp; e) {
+        assert(std::string(e.what()) == "Presenter to find cannot be empty!");
+    }</span>
+
+    // test empty new title
+    try {
+<span style = "background-color:#dfd">        s.update("LearnCPP", "Cherno", "", "NewPresenter", 5, 5, "http://new.com");</span>
+        // assert(false);
+    }
+<span style = "background-color:#dfd">    catch (std::exception&amp; e) {
+        assert(std::string(e.what()) == "New title cannot be empty!");
+    }</span>
+
+    // test empty new presenter
+    try {
+<span style = "background-color:#dfd">        s.update("LearnCPP", "Cherno", "NewTitle", "", 5, 5, "http://new.com");</span>
+        // assert(false);
+    }
+<span style = "background-color:#dfd">    catch (std::exception&amp; e) {
+        assert(std::string(e.what()) == "New presenter cannot be empty!");
+    }</span>
+
+    // test negative minutes
+    try {
+<span style = "background-color:#dfd">        s.update("LearnCPP", "Cherno", "NewTitle", "NewPresenter", -5, 5, "http://new.com");</span>
+        // assert(false);
+    }
+<span style = "background-color:#dfd">    catch (std::exception&amp; e) {
+        assert(std::string(e.what()) == "Minutes cannot be negative!");
+    }</span>
+
+    // test negative seconds
+    try {
+<span style = "background-color:#dfd">        s.update("LearnCPP", "Cherno", "NewTitle", "NewPresenter", 5, -5, "http://new.com");</span>
+        // assert(false);
+    }
+<span style = "background-color:#dfd">    catch (std::exception&amp; e) {
+        assert(std::string(e.what()) == "Seconds must be between 0 and 59!");
+    }</span>
+
+    // test seconds &gt; 59
+    try {
+<span style = "background-color:#dfd">        s.update("LearnCPP", "Cherno", "NewTitle", "NewPresenter", 5, 60, "http://new.com");</span>
+        // assert(false);
+    }
+<span style = "background-color:#dfd">    catch (std::exception&amp; e) {
+        assert(std::string(e.what()) == "Seconds must be between 0 and 59!");
+    }</span>
+
+    // test empty new link
+    try {
+<span style = "background-color:#dfd">        s.update("LearnCPP", "Cherno", "NewTitle", "NewPresenter", 5, 5, "");</span>
+        // assert(false);
+    }
+<span style = "background-color:#dfd">    catch (std::exception&amp; e) {
+        assert(std::string(e.what()) == "New link cannot be empty!");
+    }</span>
+
+<span style = "background-color:#dfd">    std::cout &lt;&lt; "testUpdateValidations passed!\n";
+}</span>
+
+<span style = "background-color:#dfd">void testFind() {
+    Repo r;
+    Service s{ r };
+    Tutorial t{ "LearnCPP", "Cherno", 10, 30, 100, "http://test.com" };
+    s.add("LearnCPP", "Cherno", 10, 30, 100, "http://test.com");</span>
+
+    // test found
+<span style = "background-color:#dfd">    s.find("LearnCPP", "Cherno"); // should not throw</span>
+
+    // test not found
+    try {
+<span style = "background-color:#dfd">        s.find("NotExist", "Nobody");</span>
+        // assert(false);
+    }
+<span style = "background-color:#dfd">    catch (std::exception&amp; e) {
+        assert(std::string(e.what()) == "Tutorial not found!");
+    }
+    std::cout &lt;&lt; "testFind passed!\n";
+}</span>
+
+<span style = "background-color:#dfd">void testUpdate() {
+    Repo r;
+    Service s{ r };</span>
+
+<span style = "background-color:#dfd">    s.add("LearnCPP", "Cherno", 10, 30, 100, "http://test.com");
+    s.update("LearnCPP", "Cherno", "LearnC++", "Chernobog", 15, 20, "http://test2.com");</span>
+
+    // verify update worked
+<span style = "background-color:#dfd">    DynamicVector&lt;Tutorial&gt; all = s.get_all();
+    Tutorial t = all.get(0);
+    assert(t.getTitle() == "LearnC++");
+    assert(t.getPresenter() == "Chernobog");
+    assert(t.getDuration().getMinutes() == 15);
+    assert(t.getDuration().getSeconds() == 20);
+    assert(t.getLikes() == 100); // likes should be preserved
+    assert(t.getLink() == "http://test2.com");</span>
+
+    // test update non-existing
+    try {
+<span style = "background-color:#dfd">        s.update("nonexistent", "nobody", "a", "b", 1, 1, "http://x.com");</span>
+        // assert(false);
+    }
+<span style = "background-color:#dfd">    catch (std::exception&amp; e) {
+        assert(std::string(e.what()) == "Tutorial not found!");
+    }</span>
+
+<span style = "background-color:#dfd">    std::cout &lt;&lt; "testUpdate passed!\n";
+}</span>
+
+<span style = "background-color:#dfd">void testGetAll() {
+    Repo r;
+    Service s{ r };</span>
+
+    // test get_all on empty repository
+<span style = "background-color:#dfd">    DynamicVector&lt;Tutorial&gt; all = s.get_all();
+    assert(all.length() == 0);</span>
+
+    // add multiple tutorials
+<span style = "background-color:#dfd">    s.add("LearnCPP", "Cherno", 10, 30, 100, "http://test1.com");
+    s.add("PointersCPP", "CodeBeauty", 15, 45, 250, "http://test2.com");
+    s.add("STL_Guide", "BoQian", 20, 15, 500, "http://test3.com");</span>
+
+    // test get_all returns correct number
+<span style = "background-color:#dfd">    all = s.get_all();
+    assert(all.length() == 3);</span>
+
+    // verify first tutorial content
+<span style = "background-color:#dfd">    Tutorial t1 = all.get(0);
+    assert(t1.getTitle() == "LearnCPP");
+    assert(t1.getPresenter() == "Cherno");
+    assert(t1.getDuration().getMinutes() == 10);
+    assert(t1.getDuration().getSeconds() == 30);
+    assert(t1.getLikes() == 100);
+    assert(t1.getLink() == "http://test1.com");</span>
+
+    // verify second tutorial content
+<span style = "background-color:#dfd">    Tutorial t2 = all.get(1);
+    assert(t2.getTitle() == "PointersCPP");
+    assert(t2.getPresenter() == "CodeBeauty");
+    assert(t2.getDuration().getMinutes() == 15);
+    assert(t2.getDuration().getSeconds() == 45);
+    assert(t2.getLikes() == 250);</span>
+
+    // verify third tutorial content
+<span style = "background-color:#dfd">    Tutorial t3 = all.get(2);
+    assert(t3.getTitle() == "STL_Guide");
+    assert(t3.getPresenter() == "BoQian");
+    assert(t3.getDuration().getMinutes() == 20);
+    assert(t3.getDuration().getSeconds() == 15);
+    assert(t3.getLikes() == 500);</span>
+
+<span style = "background-color:#dfd">    std::cout &lt;&lt; "testGetAll passed!\n";
+}</span>
+
+<span style = "background-color:#dfd">void testDomainClasses() {</span>
+    // Test Duration
+<span style = "background-color:#dfd">    Duration d1(10, 30);
+    assert(d1.getMinutes() == 10);
+    assert(d1.getSeconds() == 30);</span>
+
+<span style = "background-color:#dfd">    Duration d2;
+    assert(d2.getMinutes() == 0);
+    assert(d2.getSeconds() == 0);</span>
+
+    // Test Tutorial constructors and getters
+<span style = "background-color:#dfd">    Tutorial t1("LearnCPP", "Cherno", 10, 30, 100, "http://test.com");
+    assert(t1.getTitle() == "LearnCPP");
+    assert(t1.getPresenter() == "Cherno");
+    assert(t1.getDuration().getMinutes() == 10);
+    assert(t1.getDuration().getSeconds() == 30);
+    assert(t1.getLikes() == 100);
+    assert(t1.getLink() == "http://test.com");</span>
+
+<span style = "background-color:#dfd">    Tutorial t2;
+    assert(t2.getTitle() == "");
+    assert(t2.getPresenter() == "");
+    assert(t2.getLikes() == 0);</span>
+
+    // Test Tutorial setters
+<span style = "background-color:#dfd">    t2.setTitle("NewTitle");
+    t2.setPresenter("NewPresenter");
+    t2.setLink("http://newlink.com");
+    Duration newDuration(5, 15);
+    t2.setDuration(newDuration);</span>
+
+<span style = "background-color:#dfd">    assert(t2.getTitle() == "NewTitle");
+    assert(t2.getPresenter() == "NewPresenter");
+    assert(t2.getLink() == "http://newlink.com");
+    assert(t2.getDuration().getMinutes() == 5);
+    assert(t2.getDuration().getSeconds() == 15);</span>
+
+    // Test incrementLikes
+<span style = "background-color:#dfd">    Tutorial t3("Test", "Test", 1, 1, 0, "http://test.com");
+    assert(t3.getLikes() == 0);
+    t3.incrementLikes();
+    assert(t3.getLikes() == 1);
+    t3.incrementLikes();
+    assert(t3.getLikes() == 2);</span>
+
+    // Test equality operator
+<span style = "background-color:#dfd">    Tutorial t4("Title1", "Presenter1", 10, 20, 100, "http://link1.com");
+    Tutorial t5("Title1", "Presenter1", 5, 5, 50, "http://link2.com");
+    Tutorial t6("Title2", "Presenter1", 10, 20, 100, "http://link1.com");
+    Tutorial t7("Title1", "Presenter2", 10, 20, 100, "http://link1.com");</span>
+
+<span style = "background-color:#dfd">    assert(t4 == t5); // same title and presenter
+    assert(!(t4 == t6)); // different title
+    assert(!(t4 == t7)); // different presenter</span>
+
+<span style = "background-color:#dfd">    std::cout &lt;&lt; "testDomainClasses passed!\n";
+}</span>
+
+<span style = "background-color:#dfd">void testServiceLength() {
+    Repo r;
+    Service s{ r };</span>
+
+<span style = "background-color:#dfd">    assert(s.length() == 0);</span>
+
+<span style = "background-color:#dfd">    s.add("T1", "P1", 1, 1, 1, "http://1.com");
+    assert(s.length() == 1);</span>
+
+<span style = "background-color:#dfd">    s.add("T2", "P2", 2, 2, 2, "http://2.com");
+    assert(s.length() == 2);</span>
+
+<span style = "background-color:#dfd">    s.remove("T1", "P1");
+    assert(s.length() == 1);</span>
+
+<span style = "background-color:#dfd">    s.remove("T2", "P2");
+    assert(s.length() == 0);</span>
+
+<span style = "background-color:#dfd">    std::cout &lt;&lt; "testServiceLength passed!\n";
+}</span>
+
+// test self-assignment (covers line 33)
+<span style = "background-color:#dfd">void testSelfAssignment() {
+    DynamicVector&lt;Tutorial&gt; v;
+    v = v; // self-assign
+    assert(v.length() == 0);
+    std::cout &lt;&lt; "testSelfAssignment passed!\n";
+}</span>
+
+// test remove out of bounds (covers line 59)
+<span style = "background-color:#dfd">void testRemoveOutOfBounds() {
+    DynamicVector&lt;Tutorial&gt; v;
+    v.remove(-1); // should just return, not crash
+    v.remove(99);
+    assert(v.length() == 0);
+    std::cout &lt;&lt; "testRemoveOutOfBounds passed!\n";
+}</span>
+
+// test vector operations for better coverage
+<span style = "background-color:#dfd">void testVectorOperations() {
+    DynamicVector&lt;Tutorial&gt; v;</span>
+
+    // Test add and length
+<span style = "background-color:#dfd">    Tutorial t1("T1", "P1", 1, 1, 1, "http://1.com");
+    v.add(t1);
+    assert(v.length() == 1);</span>
+
+    // Test get
+<span style = "background-color:#dfd">    Tutorial retrieved = v.get(0);
+    assert(retrieved.getTitle() == "T1");</span>
+
+    // Test search found
+<span style = "background-color:#dfd">    Tutorial searchTutorial("T1", "P1", 0, 0, 0, "");
+    int index = v.search(searchTutorial);
+    assert(index == 0);</span>
+
+    // Test search not found
+<span style = "background-color:#dfd">    Tutorial notFound("NotExist", "Nobody", 0, 0, 0, "");
+    index = v.search(notFound);
+    assert(index == -1);</span>
+
+    // Test update
+<span style = "background-color:#dfd">    Tutorial t2("T2", "P2", 2, 2, 2, "http://2.com");
+    v.update(t2, 0);
+    retrieved = v.get(0);
+    assert(retrieved.getTitle() == "T2");</span>
+
+    // Test copy constructor
+<span style = "background-color:#dfd">    DynamicVector&lt;Tutorial&gt; v2(v);
+    assert(v2.length() == 1);
+    assert(v2.get(0).getTitle() == "T2");</span>
+
+    // Test resize (add many elements to trigger resize)
+<span style = "background-color:#dfd">    for (int i = 0; i &lt; 10; i++) {
+        Tutorial t("Title" + std::to_string(i), "Presenter" + std::to_string(i), i, i, i, "http://" + std::to_string(i) + ".com");
+        v.add(t);
+    }
+    assert(v.length() == 11);</span>
+
+    // Test remove
+<span style = "background-color:#dfd">    v.remove(0);
+    assert(v.length() == 10);</span>
+
+<span style = "background-color:#dfd">    std::cout &lt;&lt; "testVectorOperations passed!\n";
+}</span>
+
+
+<span style = "background-color:#dfd">void testGetByPresenter() {
+    Repo r;
+    Service s{ r };
+    s.add("LearnCPP", "Cherno", 10, 30, 1500, "http://youtube.com/1");
+    s.add("SmartPointers", "Cherno", 18, 35, 2700, "http://youtube.com/6");
+    s.add("STL_Containers", "BoQian", 22, 18, 3400, "http://youtube.com/3");</span>
+
+    // filter by presenter
+<span style = "background-color:#dfd">    DynamicVector&lt;Tutorial&gt; result = s.getByPresenter("Cherno");
+    assert(result.length() == 2);</span>
+
+    // empty presenter returns all
+<span style = "background-color:#dfd">    DynamicVector&lt;Tutorial&gt; all = s.getByPresenter("");
+    assert(all.length() == 3);
+}</span>
+
+<span style = "background-color:#dfd">void testIncrementLikes() {
+    Repo r;
+    Service s{ r };
+    s.add("LearnCPP", "Cherno", 10, 30, 1500, "http://youtube.com/1");</span>
+
+<span style = "background-color:#dfd">    s.incrementLikes("LearnCPP", "Cherno");
+    DynamicVector&lt;Tutorial&gt; all = s.get_all();
+    assert(all.get(0).getLikes() == 1501);</span>
+
+    // not found throws
+    try {
+<span style = "background-color:#dfd">        s.incrementLikes("Fake", "Nobody");</span>
+<span style = "background-color:#fdd">        assert(false);</span>
+    }
+<span style = "background-color:#dfd">    catch (std::exception&amp; e) {
+        assert(std::string(e.what()) == "Tutorial not found!");
+    }
+}
+void runAllTests() {
+    std::cout &lt;&lt; "\n=== Running All Tests ===\n\n";
+    testAddValidations();
+    testAdd();
+    testRemoveValidations();
+    testRemove();
+    testUpdateValidations();
+    testFind();
+    testUpdate();
+    testGetAll();
+    testDomainClasses();
+    testServiceLength();
+    testSelfAssignment();
+    testRemoveOutOfBounds();
+    testVectorOperations();
+    testGetByPresenter();
+    testIncrementLikes();
+    std::cout &lt;&lt; "\n=== All tests passed! ===\n\n";
+}</span></pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

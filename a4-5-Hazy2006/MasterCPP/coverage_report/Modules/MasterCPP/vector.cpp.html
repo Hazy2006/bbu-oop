@@ -1,0 +1,168 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>vector.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+#include "vector.h"
+
+
+/// &lt;summary&gt;
+/// Doubles the internal capacity of the dynamic vector and copies existing elements to the newly allocated memory.
+/// &lt;/summary&gt;
+void DynamicVector::_resize()
+<span style = "background-color:#dfd">{
+	this-&gt;capacity *= 2;
+	TElem* newBlock = new TElem[this-&gt;capacity];
+	for (int i = 0; i &lt; this-&gt;size; ++i)</span>
+	{
+<span style = "background-color:#dfd">		newBlock[i] = this-&gt;elems[i];
+	}
+	delete[] this-&gt;elems;
+	this-&gt;elems = newBlock;
+}</span>
+
+
+/// &lt;summary&gt;
+/// Initializaiton of capacity and size for TElem
+/// &lt;/summary&gt;
+/// &lt;param name="initial_cap"&gt;&lt;/param&gt;
+DynamicVector::DynamicVector(int initial_cap)
+<span style = "background-color:#dfd">{
+	this-&gt;capacity = initial_cap;
+	this-&gt;size = 0;
+	elems = new TElem[capacity];
+}</span>
+
+
+/// &lt;summary&gt;
+/// Copy constructor that creates a new DynamicVector as a deep copy of another DynamicVector.
+/// &lt;/summary&gt;
+/// &lt;param name="other"&gt;The DynamicVector to copy from.&lt;/param&gt;
+<span style = "background-color:#dfd">DynamicVector::DynamicVector(const DynamicVector&amp; other) : capacity(other.capacity), size(other.size)
+{
+	this-&gt;elems = new TElem[other.capacity];
+	for (int i = 0; i &lt; other.size; ++i) {
+		this-&gt;elems[i] = other.elems[i];
+	}
+}</span>
+
+
+/// &lt;summary&gt;
+/// Copy assignment operator that assigns the contents of another DynamicVector to this one.
+/// &lt;/summary&gt;
+/// &lt;param name="other"&gt;The DynamicVector to copy from.&lt;/param&gt;
+/// &lt;returns&gt;A reference to this DynamicVector after assignment.&lt;/returns&gt;
+DynamicVector&amp; DynamicVector::operator=(const DynamicVector&amp; other)
+<span style = "background-color:#dfd">{
+	if (this == &amp;other) {
+		return *this;</span>
+	}
+<span style = "background-color:#dfd">	delete[] this-&gt;elems;
+	this-&gt;elems = new TElem[other.capacity];
+	this-&gt;capacity = other.capacity;
+	this-&gt;size = other.size;
+	for (int i = 0; i &lt; this-&gt;size; ++i)</span>
+	{
+<span style = "background-color:#dfd">		this-&gt;elems[i] = other.elems[i];
+	}
+	return *this;
+}</span>
+
+
+/// &lt;summary&gt;
+/// Adds an element to the end of the dynamic vector.
+/// &lt;/summary&gt;
+/// &lt;param name="element"&gt;The element to add to the vector.&lt;/param&gt;
+void DynamicVector::add(TElem element)
+<span style = "background-color:#dfd">{
+	if (this-&gt;size == this-&gt;capacity) {
+		this-&gt;_resize();</span>
+	}
+<span style = "background-color:#dfd">	this-&gt;elems[this-&gt;size] = element;
+	this-&gt;size++;
+}</span>
+
+
+/// &lt;summary&gt;
+/// Removes the element at the specified index from the dynamic vector.
+/// &lt;/summary&gt;
+/// &lt;param name="index"&gt;The zero-based index of the element to remove. If the index is out of bounds, no action is taken.&lt;/param&gt;
+void DynamicVector::remove(int index)
+<span style = "background-color:#dfd">{
+	if (index &lt; 0 || index &gt;= this-&gt;size) {
+		return; </span>
+	}
+
+<span style = "background-color:#dfd">	for (int i = index; i &lt; this-&gt;size - 1; ++i) {
+		this-&gt;elems[i] = this-&gt;elems[i + 1];
+	}
+	this-&gt;size--;
+}</span>
+
+
+/// &lt;summary&gt;
+/// Update an element
+/// &lt;/summary&gt;
+/// &lt;param name="element"&gt;&lt;/param&gt;
+/// &lt;param name="index"&gt;&lt;/param&gt;
+void DynamicVector::update(TElem element, int index)
+<span style = "background-color:#dfd">{
+	if (index &lt; 0 || index &gt;= this-&gt;size) {</span>
+<span style = "background-color:#fdd">		return;</span>
+	}
+<span style = "background-color:#dfd">	this-&gt;elems[index] = element;
+}</span>
+
+
+/// &lt;summary&gt;
+/// Search for an element
+/// &lt;/summary&gt;
+/// &lt;param name="element"&gt;&lt;/param&gt;
+/// &lt;returns&gt;&lt;/returns&gt;
+int DynamicVector::search(TElem element)
+<span style = "background-color:#dfd">{
+	for (int i = 0; i &lt; this-&gt;size; ++i)
+		if (elems[i] == element)
+			return i;
+	return -1;
+}</span>
+
+/// &lt;summary&gt;
+/// Get element at index
+/// &lt;/summary&gt;
+/// &lt;param name="index"&gt;&lt;/param&gt;
+/// &lt;returns&gt;&lt;/returns&gt;
+TElem DynamicVector::get(int index) const
+<span style = "background-color:#dfd">{
+	return this-&gt;elems[index];
+}</span>
+
+/// &lt;summary&gt;
+/// destroyer
+/// &lt;/summary&gt;
+DynamicVector::~DynamicVector()
+<span style = "background-color:#dfd">{
+	delete[] this-&gt;elems;
+}</span>
+</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

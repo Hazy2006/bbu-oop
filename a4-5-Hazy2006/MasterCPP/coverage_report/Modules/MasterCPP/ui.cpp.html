@@ -1,0 +1,230 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>ui.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+#include &lt;iostream&gt;
+#include &lt;limits&gt;
+#include "ui.h"
+
+<span style = "background-color:#dfd">UI::UI(Service&amp; s) : s(s) {
+}</span>
+
+<span style = "background-color:#fdd">void UI::adminMenu() {</span>
+    int choice;
+    do {
+<span style = "background-color:#fdd">        std::cout &lt;&lt; "\n--- Admin Menu ---\n";
+        std::cout &lt;&lt; "1. Add\n2. Remove\n3. Update\n4. Display all\n0. Back\n";
+        std::cout &lt;&lt; "Enter choice: ";
+        std::cin &gt;&gt; choice;</span>
+
+<span style = "background-color:#fdd">        if (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), '\n');
+            std::cout &lt;&lt; "\nInvalid input! Please enter a number.\n";
+            continue;</span>
+        }
+
+<span style = "background-color:#fdd">        switch (choice) {</span>
+        case 1: {
+<span style = "background-color:#fdd">            std::string title, presenter, link;</span>
+            int minutes, seconds, likes;
+
+<span style = "background-color:#fdd">            std::cout &lt;&lt; "\n--- Add Tutorial ---\n";
+            std::cout &lt;&lt; "Title: "; 
+            std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), '\n');
+            std::getline(std::cin, title);</span>
+
+<span style = "background-color:#fdd">            std::cout &lt;&lt; "Presenter: "; 
+            std::getline(std::cin, presenter);</span>
+
+<span style = "background-color:#fdd">            std::cout &lt;&lt; "Minutes: "; 
+            std::cin &gt;&gt; minutes;
+            if (std::cin.fail()) {
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), '\n');
+                std::cout &lt;&lt; "\nError: Invalid input for minutes!\n";
+                break;</span>
+            }
+
+<span style = "background-color:#fdd">            std::cout &lt;&lt; "Seconds: "; 
+            std::cin &gt;&gt; seconds;
+            if (std::cin.fail()) {
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), '\n');
+                std::cout &lt;&lt; "\nError: Invalid input for seconds!\n";
+                break;</span>
+            }
+
+<span style = "background-color:#fdd">            std::cout &lt;&lt; "Likes: "; 
+            std::cin &gt;&gt; likes;
+            if (std::cin.fail()) {
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), '\n');
+                std::cout &lt;&lt; "\nError: Invalid input for likes!\n";
+                break;</span>
+            }
+
+<span style = "background-color:#fdd">            std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), '\n');
+            std::cout &lt;&lt; "Link: "; 
+            std::getline(std::cin, link);</span>
+
+            try {
+<span style = "background-color:#fdd">                s.add(title, presenter, minutes, seconds, likes, link);
+                std::cout &lt;&lt; "\nTutorial added successfully!\n";</span>
+            }
+<span style = "background-color:#fdd">            catch (std::exception&amp; e) {
+                std::cout &lt;&lt; "\nError: " &lt;&lt; e.what() &lt;&lt; "\n";
+            }
+            break;
+        }</span>
+        case 2:
+        {
+<span style = "background-color:#fdd">            std::string title, presenter;
+            std::cout &lt;&lt; "\n--- Remove Tutorial ---\n";
+            std::cout &lt;&lt; "Title to search: "; 
+            std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), '\n');
+            std::getline(std::cin, title);</span>
+
+<span style = "background-color:#fdd">            std::cout &lt;&lt; "Presenter to search: "; 
+            std::getline(std::cin, presenter);</span>
+
+            try {
+<span style = "background-color:#fdd">                s.remove(title, presenter);
+                std::cout &lt;&lt; "\nTutorial deleted successfully!\n"; </span>
+            }
+<span style = "background-color:#fdd">            catch(std::exception&amp; e){
+                std::cout &lt;&lt; "\nError: " &lt;&lt; e.what() &lt;&lt; "\n";
+            }
+            break;
+        }</span>
+        case 3: {
+<span style = "background-color:#fdd">            std::string title, presenter;
+            std::cout &lt;&lt; "\n--- Update Tutorial ---\n";
+            std::cout &lt;&lt; "Title to find: "; 
+            std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), '\n');
+            std::getline(std::cin, title);</span>
+
+<span style = "background-color:#fdd">            std::cout &lt;&lt; "Presenter to find: "; 
+            std::getline(std::cin, presenter);</span>
+
+<span style = "background-color:#fdd">            std::string newTitle, newPresenter, newLink;</span>
+            int newMinutes, newSeconds;
+
+<span style = "background-color:#fdd">            std::cout &lt;&lt; "New Title: "; 
+            std::getline(std::cin, newTitle);</span>
+
+<span style = "background-color:#fdd">            std::cout &lt;&lt; "New Presenter: "; 
+            std::getline(std::cin, newPresenter);</span>
+
+<span style = "background-color:#fdd">            std::cout &lt;&lt; "New Minutes: "; 
+            std::cin &gt;&gt; newMinutes;
+            if (std::cin.fail()) {
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), '\n');
+                std::cout &lt;&lt; "\nError: Invalid input for minutes!\n";
+                break;</span>
+            }
+
+<span style = "background-color:#fdd">            std::cout &lt;&lt; "New Seconds: "; 
+            std::cin &gt;&gt; newSeconds;
+            if (std::cin.fail()) {
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), '\n');
+                std::cout &lt;&lt; "\nError: Invalid input for seconds!\n";
+                break;</span>
+            }
+
+<span style = "background-color:#fdd">            std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), '\n');
+            std::cout &lt;&lt; "New Link: "; 
+            std::getline(std::cin, newLink);</span>
+
+            try {
+<span style = "background-color:#fdd">                s.update(title, presenter, newTitle, newPresenter, newMinutes, newSeconds, newLink);
+                std::cout &lt;&lt; "\nTutorial updated successfully!\n";</span>
+            }
+<span style = "background-color:#fdd">            catch(std::exception&amp; e){
+                std::cout &lt;&lt; "\nError: " &lt;&lt; e.what() &lt;&lt; "\n";  
+            }
+            break;
+        }</span>
+        case 4: {
+<span style = "background-color:#fdd">            DynamicVector all = s.get_all();
+            std::cout &lt;&lt; "\n--- All Tutorials ---\n";
+            if (all.length() == 0) {
+                std::cout &lt;&lt; "No tutorials available.\n";
+            }</span>
+            else {
+<span style = "background-color:#fdd">                for (int i = 0; i &lt; all.length(); i++) {
+                    Tutorial t = all.get(i);
+                    std::cout &lt;&lt; "\nTutorial " &lt;&lt; (i + 1) &lt;&lt; ":\n";
+                    std::cout &lt;&lt; "  Title:     " &lt;&lt; t.getTitle() &lt;&lt; "\n";
+                    std::cout &lt;&lt; "  Presenter: " &lt;&lt; t.getPresenter() &lt;&lt; "\n";
+                    std::cout &lt;&lt; "  Duration:  " &lt;&lt; t.getDuration().getMinutes() &lt;&lt; ":" </span>
+                              &lt;&lt; (t.getDuration().getSeconds() &lt; 10 ? "0" : "") &lt;&lt; t.getDuration().getSeconds() &lt;&lt; "\n";
+<span style = "background-color:#fdd">                    std::cout &lt;&lt; "  Likes:     " &lt;&lt; t.getLikes() &lt;&lt; "\n";
+                    std::cout &lt;&lt; "  Link:      " &lt;&lt; t.getLink() &lt;&lt; "\n";
+                }</span>
+            }
+<span style = "background-color:#fdd">            break;
+        }</span>
+        case 0:
+<span style = "background-color:#fdd">            break;</span>
+        default:
+<span style = "background-color:#fdd">            std::cout &lt;&lt; "\nInvalid option! Please choose a valid menu option.\n";</span>
+            break;
+        }
+<span style = "background-color:#fdd">    } while (choice != 0);
+}</span>
+
+<span style = "background-color:#dfd">void UI::run() {</span>
+    int choice;
+    do {
+<span style = "background-color:#dfd">        std::cout &lt;&lt; "\n=== MasterCPP Tutorial Manager ===\n";
+        std::cout &lt;&lt; "1. Admin mode\n0. Exit\n";
+        std::cout &lt;&lt; "Enter choice: ";
+        std::cin &gt;&gt; choice;</span>
+
+<span style = "background-color:#dfd">        if (std::cin.fail()) {</span>
+<span style = "background-color:#fdd">            std::cin.clear();
+            std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), '\n');
+            std::cout &lt;&lt; "\nInvalid input! Please enter a number.\n";
+            continue;</span>
+        }
+
+<span style = "background-color:#dfd">        switch (choice) {</span>
+        case 1: 
+<span style = "background-color:#fdd">            adminMenu(); 
+            break;</span>
+        case 0:
+<span style = "background-color:#dfd">            std::cout &lt;&lt; "\nGoodbye!\n";
+            break;</span>
+        default:
+<span style = "background-color:#fdd">            std::cout &lt;&lt; "\nInvalid option! Please choose a valid menu option.\n";</span>
+            break;
+        }
+<span style = "background-color:#dfd">    } while (choice != 0);
+}</span>
+
+</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>
