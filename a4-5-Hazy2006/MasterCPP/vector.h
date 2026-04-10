@@ -2,6 +2,7 @@
 #include "domain.h"
 
 template <typename T>
+
 class DynamicVector
 {
 private:
