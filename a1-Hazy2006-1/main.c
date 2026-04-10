@@ -56,6 +56,7 @@ void get_digits(int n, int arr[10])
 /// <param name="a">The first integer to compare.</param>
 /// <param name="b">The second integer to compare.</param>
 /// <returns>Non-zero (true) if both integers have the same digit composition, zero (false) otherwise.</returns>
+
 int same_digits(int a, int b)
 {
     int arr_a[10] = { 0 }, arr_b[10] = { 0 };
