@@ -8,7 +8,7 @@ test coverage, and undo functionality.
 ## labs
 | Lab | Language | Description |
 |-----|----------|-------------|
-| a1 | C | Introductory exercise |
+| a1 | C | Algorithmic exercises — prime factorization, digit sequence analysis |
 | a2-3 | C | World population monitoring system |
 | a4-5 | C++ | Tutorial watchlist manager — admin/user modes, DynamicVector template |
 
