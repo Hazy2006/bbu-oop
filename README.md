@@ -11,5 +11,6 @@ test coverage, and undo functionality.
 | a1 | C | Algorithmic exercises — prime factorization, digit sequence analysis |
 | a2-3 | C | World population monitoring system |
 | a4-5 | C++ | Tutorial watchlist manager — admin/user modes, DynamicVector template |
+| a6-7 | C++ | Extended Tutorial Manager: inheritance/polymorphism, CSV/HTML file persistence, custom exceptions, UML diagram |
 
 **Languages:** C, C++
