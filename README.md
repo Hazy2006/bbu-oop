@@ -12,5 +12,6 @@ test coverage, and undo functionality.
 | a2-3 | C | World population monitoring system |
 | a4-5 | C++ | Tutorial watchlist manager — admin/user modes, DynamicVector template |
 | a6-7 | C++ | Extended Tutorial Manager: inheritance/polymorphism, CSV/HTML file persistence, custom exceptions | [UML](a6-7-Hazy2006/MasterCPP/UML_diagram_a67.pdf) |
+| a8-9 | C++ | Final stance: QT implementation |
 
 **Languages:** C, C++
