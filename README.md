@@ -4,6 +4,7 @@ Babeș-Bolyai University · Year 1 · Semester 2
 Lab assignments covering layered architecture in C and C++.
 Domain, repository, service, and UI layers with input validation,
 test coverage, and undo functionality.
+QT Framework separate project.
 
 ## labs
 | Lab | Language | Description |
