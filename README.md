@@ -15,4 +15,4 @@ test coverage, and undo functionality.
 | a8-9 | C++ | Final stance: QT implementation |
 - [a10-11-Hazy2006/Chef Manager Qt App](./a10-11-Hazy2006/Chef%20Manager%20Qt%20App) — Qt C++ chef & recipe manager
 
-**Languages:** C, C++ + QT Framework
+**Languages:** C, C++, QT Framework
