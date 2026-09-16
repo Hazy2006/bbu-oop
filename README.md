@@ -13,5 +13,6 @@ test coverage, and undo functionality.
 | a4-5 | C++ | Tutorial watchlist manager — admin/user modes, DynamicVector template |
 | a6-7 | C++ | Extended Tutorial Manager: inheritance/polymorphism, CSV/HTML file persistence, custom exceptions | [UML](a6-7-Hazy2006/MasterCPP/UML_diagram_a67.pdf) |
 | a8-9 | C++ | Final stance: QT implementation |
+- [a10-11-Hazy2006/Chef Manager Qt App](./a10-11-Hazy2006/Chef%20Manager%20Qt%20App) — Qt C++ chef & recipe manager
 
-**Languages:** C, C++
+**Languages:** C, C++ + QT Framework
